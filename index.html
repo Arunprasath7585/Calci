@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Desmo Scientific</title>
+  <meta name="description" content="Desmo Scientific: a superbike-inspired scientific calculator with trigonometry, logarithms, powers, memory and degree/radian modes.">
+  <meta name="theme-color" content="#070708">
+  <meta property="og:title" content="Desmo Scientific">
+  <meta property="og:description" content="A superbike-inspired scientific calculator in carbon black and racing red.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/barlow-condensed-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <main class="device" aria-label="Scientific calculator">
+    <header class="top">
+      <h1>Desmo<span>/</span>S</h1>
+      <span class="model">Scientific &middot; 12 digit</span>
+    </header>
+
+    <div class="scale-wrap" aria-hidden="true">
+      <div class="scale" id="rev"></div>
+      <div class="scale-label"><span>Digits</span><b>Redline 12</b></div>
+    </div>
+
+    <div class="screen">
+      <div class="screen-top">
+        <div class="chips" aria-hidden="true">
+          <span class="chip on" id="chipAngle">Deg</span>
+          <span class="chip" id="chip2nd">2nd</span>
+          <span class="chip" id="chipMem">Mem</span>
+        </div>
+        <div class="tools">
+          <button type="button" id="btnLeft" aria-label="Move cursor left">&#9664;</button>
+          <button type="button" id="btnRight" aria-label="Move cursor right">&#9654;</button>
+          <button type="button" id="btnCopy" aria-label="Copy result">Copy</button>
+        </div>
+      </div>
+      <input id="expr" type="text" inputmode="none" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Expression" placeholder="Type or tap an expression">
+      <div class="result" id="result" role="status" aria-live="polite">0</div>
+    </div>
+
+    <div class="keys">
+      <div class="sci" id="sci"></div>
+      <div class="num" id="num"></div>
+    </div>
+  </main>
+
+  <p class="hint">
+    Type straight into the display or use the keys. Brackets close themselves at the end.<br>
+    <kbd>Enter</kbd> equals &nbsp;<kbd>Esc</kbd> clears &nbsp;Try <kbd>2(3+4)</kbd> <kbd>5!</kbd> <kbd>8%</kbd> <kbd>2^10</kbd> <kbd>17 mod 5</kbd> <kbd>comb(10,3)</kbd>
+  </p>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
