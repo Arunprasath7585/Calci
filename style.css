@@ -1,0 +1,182 @@
+/* ---------- fonts (local files in ../fonts) ---------- */
+@font-face { font-family: "Barlow Condensed"; font-style: normal; font-weight: 500; font-display: swap; src: url("../fonts/barlow-condensed-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-style: normal; font-weight: 600; font-display: swap; src: url("../fonts/barlow-condensed-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-style: italic; font-weight: 500; font-display: swap; src: url("../fonts/barlow-condensed-500-italic.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-style: italic; font-weight: 600; font-display: swap; src: url("../fonts/barlow-condensed-600-italic.woff2") format("woff2"); }
+@font-face { font-family: "Barlow"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/barlow-400-normal.woff2") format("woff2"); }
+
+/* =====================================================================
+   DESMO SCIENTIFIC
+   Concept: a superbike dashboard. Carbon-fibre shell, white race-number
+   keys, one racing-red start key, and a rev-counter digit scale.
+   All colours and fonts are tokens in :root: change them to re-theme.
+   ===================================================================== */
+:root {
+  --night: #070708;          /* page */
+  --glow: rgba(210, 10, 25, 0.20);
+  --muted-page: #8d9096;
+
+  --shell: #121214;          /* carbon shell */
+  --shell-edge: #2a2b30;
+  --weave-light: rgba(255, 255, 255, 0.04);
+  --weave-dark: rgba(0, 0, 0, 0.35);
+
+  --tft: #050506;            /* dashboard display */
+  --tft-line: #2b2c31;
+  --fg: #f4f4f1;             /* white text */
+  --dim: #8e9197;            /* secondary text */
+  --faint: #55575d;
+  --err: #ffb300;
+
+  --gun: #202125;            /* function keys */
+  --gun-edge: #34353b;
+  --gun-ink: #f4f4f1;
+  --deep: #151517;           /* secondary keys */
+  --deep-ink: #b9bbc0;
+  --mid: #3a3b41;            /* utility keys */
+  --plate: #f3f3ef;          /* white race-number keys */
+  --plate-ink: #0d0d0e;
+
+  --accent: #d6001c;         /* racing red (fills) */
+  --accent-hi: #ff1f35;      /* hover / bright */
+  --accent-text: #ff4352;    /* red used as text on black */
+  --accent-ink: #ffffff;
+
+  --meter-off: #26272b;
+  --meter-on: #f4f4f1;       /* lit segments */
+  --meter-hot: #ff6a3d;      /* upper range */
+  --meter-red: #ff1f35;      /* redline */
+
+  --font-main: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", Impact, sans-serif;
+  --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  margin: 0;
+  background-color: var(--night);
+  background-image: radial-gradient(ellipse 70% 40% at 50% 105%, var(--glow), transparent 70%);
+  background-attachment: fixed;
+  color: var(--dim);
+  font-family: var(--font-body);
+  font-size: 16px;
+  padding-inline: 16px;
+  padding-block: 36px 48px;
+}
+button { font: inherit; }
+button:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
+#expr:focus, #expr:focus-visible { outline: none; }
+
+.wrap { max-width: 780px; margin-inline: auto; display: grid; gap: 20px; }
+
+/* ---------- shell ---------- */
+.device {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--shell);
+  background-image:
+    repeating-linear-gradient(45deg, var(--weave-light) 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(-45deg, var(--weave-dark) 0 2px, transparent 2px 5px);
+  border: 1px solid var(--shell-edge);
+  border-radius: 20px;
+  padding: 26px 22px 24px;
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset, 0 40px 70px -30px rgba(0,0,0,0.9), 0 0 60px -20px rgba(214,0,28,0.25);
+}
+/* red and white race stripe */
+.device::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 6px;
+  background: linear-gradient(90deg, var(--accent) 0 72%, var(--fg) 72% 74%, var(--accent) 74% 100%);
+}
+header.top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+h1 { margin: 0; font-family: var(--font-main); font-weight: 600; font-style: italic; font-size: 1.35rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--fg); }
+h1 span { color: var(--accent-text); }
+.model { font-family: var(--font-main); font-size: 0.82rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim); }
+
+/* rev-counter digit scale */
+.scale-wrap { display: grid; gap: 5px; }
+.scale { display: flex; gap: 4px; align-items: flex-end; height: 22px; }
+.scale i { flex: 1; background: var(--meter-off); border-radius: 1px; transform: skewX(-20deg); transition: background 0.1s; }
+.scale i.on { background: var(--meter-on); }
+.scale i.on.hot { background: var(--meter-hot); }
+.scale i.on.red { background: var(--meter-red); box-shadow: 0 0 8px rgba(255,31,53,0.7); }
+.scale-label { display: flex; justify-content: space-between; font-family: var(--font-main); font-size: 0.72rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--faint); }
+.scale-label b { font-weight: 500; color: var(--accent-text); }
+
+/* ---------- dashboard display ---------- */
+.screen {
+  background: linear-gradient(180deg, #0a0a0b, var(--tft));
+  border: 1px solid var(--tft-line);
+  border-bottom: 2px solid var(--accent);
+  border-radius: 10px;
+  padding: 10px 18px 12px;
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.screen:focus-within { border-color: var(--accent); box-shadow: 0 0 22px -8px rgba(255,31,53,0.55); }
+.screen-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip { font-family: var(--font-main); font-weight: 600; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--faint); border: 1px solid var(--tft-line); border-radius: 3px; padding: 1px 8px; }
+.chip.on { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
+.tools { display: flex; gap: 6px; }
+.tools button { background: none; border: 1px solid var(--tft-line); color: var(--dim); border-radius: 3px; font-family: var(--font-main); font-weight: 500; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; padding: 3px 12px; cursor: pointer; min-width: 36px; }
+.tools button:hover { color: var(--fg); border-color: var(--dim); }
+
+#expr { width: 100%; min-width: 0; background: transparent; border: 0; outline: none; color: var(--dim); caret-color: var(--accent-hi); font-family: var(--font-main); font-weight: 500; font-size: 1.5rem; letter-spacing: 0.04em; text-align: right; padding: 8px 0 0; }
+#expr:focus { color: var(--fg); }
+#expr::placeholder { color: var(--faint); }
+.result { text-align: right; font-family: var(--font-main); font-style: italic; font-weight: 500; font-size: 3.5rem; line-height: 1.1; min-height: 1.1em; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; word-break: break-all; color: var(--fg); }
+.result.preview { color: var(--dim); }
+.result.long { font-size: 2.4rem; }
+.result.err { color: var(--err); font-style: normal; font-size: 1.7rem; letter-spacing: 0.04em; }
+
+/* ---------- keys ---------- */
+.keys { display: flex; flex-wrap: wrap; gap: 18px; }
+.sci { flex: 5 1 320px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 7px; align-content: start; min-width: 0; }
+.num { flex: 4 1 260px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; align-content: start; min-width: 0; }
+
+.keys button {
+  font-family: var(--font-main); font-weight: 600;
+  border: 1px solid var(--gun-edge); border-radius: 8px; cursor: pointer; padding: 0 2px;
+  background: linear-gradient(180deg, #2a2b30, var(--gun));
+  color: var(--gun-ink);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.09) inset, 0 3px 0 #000, 0 7px 10px -4px rgba(0,0,0,0.8);
+  transition: transform 0.06s, box-shadow 0.06s, filter 0.1s;
+}
+.keys button:hover { filter: brightness(1.2); }
+.keys button:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(255,255,255,0.08) inset, 0 1px 0 #000; }
+
+/* function block */
+.sci button { height: 50px; font-size: 1.22rem; letter-spacing: 0.03em; }
+.sci button.dim, .sci button.mem { background: linear-gradient(180deg, #1b1c1f, var(--deep)); color: var(--deep-ink); border-color: #26272b; font-weight: 500; }
+.sci button.mem { font-size: 1.05rem; letter-spacing: 0.1em; }
+.sci button.tog.on { color: var(--accent-text); border-color: var(--accent); }
+
+/* number block: white race-number plates, black operators, red start key */
+.num button { height: 58px; font-size: 1.75rem; }
+.num button.digit { background: linear-gradient(180deg, #ffffff, var(--plate)); color: var(--plate-ink); border-color: #cfcfca; box-shadow: 0 1px 0 #fff inset, 0 3px 0 #6c6c68, 0 7px 10px -4px rgba(0,0,0,0.8); font-weight: 600; }
+.num button.digit:active { box-shadow: 0 1px 0 #fff inset, 0 1px 0 #6c6c68; }
+.num button.fn { background: linear-gradient(180deg, #44454b, var(--mid)); color: var(--fg); font-size: 1.45rem; font-weight: 500; }
+.num button.op { color: var(--accent-text); font-size: 1.9rem; }
+.num button.eq { background: linear-gradient(180deg, var(--accent-hi), var(--accent)); color: var(--accent-ink); border-color: #ff5a6a; grid-column: span 3; font-size: 2rem; letter-spacing: 0.2em; box-shadow: 0 1px 0 rgba(255,255,255,0.35) inset, 0 3px 0 #6e000d, 0 8px 18px -4px rgba(214,0,28,0.7); }
+.num button.eq:hover { filter: brightness(1.12); }
+
+/* ---------- footer ---------- */
+.hint { margin: 0; text-align: center; font-size: 0.82rem; line-height: 1.9; color: var(--muted-page); }
+kbd { font-family: var(--font-main); font-weight: 500; font-size: 0.82rem; letter-spacing: 0.04em; border: 1px solid #34353b; border-radius: 4px; padding: 0 7px; background: #141416; color: #d4d5d9; }
+
+@media (max-width: 440px) {
+  body { padding-block: 20px 32px; }
+  .device { padding: 22px 14px 18px; border-radius: 16px; }
+  h1 { font-size: 1.1rem; }
+  .result { font-size: 2.7rem; }
+  #expr { font-size: 1.25rem; }
+  .sci button { height: 44px; font-size: 1.08rem; }
+  .num button { height: 54px; }
+  .keys { gap: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
